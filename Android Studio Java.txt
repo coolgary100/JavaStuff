@@ -1,0 +1,466 @@
+States:-------------------------------------------------------------------------------------------------------------->
+
+//LOGS MESSAGE TO LOGCAT DEPENDING ON WHAT ACTIVITY IT IS GOING THROUGH
+
+package com.gary.myapplication;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "buckysMessage";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Log.i(TAG, "onCreate");
+    }
+
+    @Override //alt+insert
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG, "onRestart");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.i(TAG, "onRestoreInstanceState");
+    }
+}
+
+Using Java to make user interface:---------------------------------------------------------------------------------------------->
+
+package com.gary.application;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.RelativeLayout;
+import android.widget.Button;
+import android.graphics.Color;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        RelativeLayout buckysLayout = new RelativeLayout(this);
+        buckysLayout.setBackgroundColor(Color.GREEN); //Background of the Layout
+
+        RelativeLayout.LayoutParams buttonDetails = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,	//The layout has a Wrap Parameter
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        buttonDetails.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        buttonDetails.addRule(RelativeLayout.CENTER_VERTICAL); //Centers the Button
+
+        Button redButton = new Button(this);
+        redButton.setText("Click me Boss!");
+        redButton.setBackgroundColor(Color.RED);
+
+        buckysLayout.addView(redButton, buttonDetails); //Makes the button have the buttonDetail rules
+        setContentView(buckysLayout);
+    }
+
+}
+
+Even Handling Listener:----------------------------------------------------------------------------------------------------------->
+
+package com.gary.eventhandling;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button buckysButton = (Button)findViewById(R.id.buckysButton);
+
+        buckysButton.setOnClickListener(   //Wait for a click
+               new Button.OnClickListener() {
+                   public void onClick(View v) {
+                       TextView buckysText = (TextView)findViewById(R.id.buckysText);
+                       buckysText.setText("Good Job");
+                   }
+               }
+        );
+
+        buckysButton.setOnLongClickListener( //Holding down the button
+            new Button.OnLongClickListener() {
+                public boolean onLongClick(View v) {
+                    TextView buckysText = (TextView)findViewById(R.id.buckysText);
+                    buckysText.setText("Holy that was a long one");
+                    return true;
+                }
+            }
+        );
+    }
+}
+
+Gestures:------------------------------------------------------------------------------------------------------------------>
+
+package com.gary.gestures;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.view.MotionEvent;
+import android.view.GestureDetector;
+import android.support.v4.view.GestureDetectorCompat;
+
+import org.w3c.dom.Text;
+
+public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
+
+    private TextView buckysMessage;
+    private GestureDetectorCompat gestureDetector;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        buckysMessage = (TextView)findViewById(R.id.buckysMessage);
+        this.gestureDetector = new GestureDetectorCompat(this,this); //object gestureDetector from the class GestureDetectorCompat
+        gestureDetector.setOnDoubleTapListener(this); //Gesture on double tap
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        buckysMessage.setText("onDoubleTap");
+        return true;
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        buckysMessage.setText("onSingleTapConfirmed");
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        buckysMessage.setText("onDoubleTapEvent");
+        return true;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        buckysMessage.setText("onDown");
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+        buckysMessage.setText("onShowPress");
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        buckysMessage.setText("onSingleTapUp");
+        return true;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        buckysMessage.setText("onScroll");
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+        buckysMessage.setText("onLongPress");
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        buckysMessage.setText("onFling");
+        return true;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        this.gestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+}
+
+Fragments (Meme Generator):------------------------------------------------------------------------------------------------------------------------------------------------->
+
+<----------------------------------------------------MainActivity.java------------------------------------------------------------------------------------->
+
+package com.gary.fragments;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity implements TopSectionFragment.TopSectionListener{
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    //This gets called by the Top Fragment when the user clicks the button
+    @Override
+    public void createMeme(String top, String bottom) {
+        BottomPictureFragment bottomFragment = (BottomPictureFragment) getSupportFragmentManager().findFragmentById(R.id.fragment2);
+        bottomFragment.setMemeText(top, bottom);
+    }
+}
+
+
+<------------------------------------------------TopSectionFragment.java----------------------------------------------------------------------------------------->
+
+package com.gary.fragments;
+
+/**
+ * Created by bowen on 2016-07-07.
+ */
+import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+
+import android.widget.Button;
+import android.app.Activity;
+
+public class TopSectionFragment extends Fragment {
+
+    private static EditText topTextInput;
+    private static EditText bottomTextInput;
+
+    TopSectionListener activityCommander;
+
+
+    //This is for talking to the topsection fragment
+    public interface TopSectionListener {
+        public void createMeme(String top, String bottom);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try{
+            activityCommander = (TopSectionListener) activity;
+        } catch(ClassCastException e) {
+            throw new ClassCastException(activity.toString());
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.top_section_fragment, container, false);
+
+        topTextInput = (EditText) view.findViewById(R.id.topTextInput);
+        bottomTextInput = (EditText) view.findViewById(R.id.bottomTextInput);
+        final Button button = (Button) view.findViewById(R.id.button);
+
+        button.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        buttonClicked(v);
+                    }
+                }
+        );
+
+        return view;
+    }
+
+    //calls this when the button is clicked
+    public void buttonClicked(View view) {
+        activityCommander.createMeme(topTextInput.getText().toString(), bottomTextInput.getText().toString()); //Gets the text and sets it to string
+
+    }
+
+}
+
+<---------------------------------------------------BottomPictureFragment.java-------------------------------------------------------------------------------------------->
+
+package com.gary.fragments;
+
+import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+public class BottomPictureFragment extends Fragment {
+
+    private static TextView topMemeText;
+    private static TextView bottomMemeText;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.bottom_picture_fragment, container, false);
+        topMemeText = (TextView) view.findViewById(R.id.topMemeText);
+        bottomMemeText = (TextView) view.findViewById(R.id.bottomMemeText);
+        return view;
+
+    }
+
+    public void setMemeText(String top, String bottom) {
+        topMemeText.setText(top);
+        bottomMemeText.setText(bottom);
+    }
+
+}
+
+<----------------------------------------activity_main.xml---------------------------------------------------------------------------------------------------->
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.gary.fragments.MainActivity">
+
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="com.gary.fragments.TopSectionFragment"
+        android:id="@+id/fragment"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        tools:layout="@layout/top_section_fragment" />
+
+    <fragment
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:name="com.gary.fragments.BottomPictureFragment"
+        android:id="@+id/fragment2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        tools:layout="@layout/bottom_picture_fragment" />
+</RelativeLayout>
+
+<-------------------------------------top_section_fragment.xml--------------------------------------------------------------------------------->
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/topTextInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:width="300dp" />
+
+    <EditText
+        android:id="@+id/bottomTextInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topTextInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:width="300dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_text"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/bottomTextInput"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
+
+<------------------------------------------bottom_picture_fragment.xml------------------------------------------------------------------------------------>
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/image">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/top_text"
+        android:id="@+id/topMemeText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/bottom_text"
+        android:id="@+id/bottomMemeText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/topMemeText"
+        android:layout_alignStart="@+id/topMemeText"
+        android:gravity="center_horizontal"
+        android:textColor="#FFFFFF" />
+</RelativeLayout>
+
+MasterFlow:----------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
